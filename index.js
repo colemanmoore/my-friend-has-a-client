@@ -1,4 +1,4 @@
-const socketClient = require('socket.io-client')
+const io = require('socket.io-client')
 const { exec } = require('child_process')
 
 require('dotenv/config')
@@ -22,8 +22,7 @@ let printerName, socket
     }
 
     try {
-        console.log(socketServerUrl)
-        socket = socketClient.io(socketServerUrl)
+        socket = io(socketServerUrl)
     } catch (err) {
         console.log('Error getting socket', err)
         return
@@ -33,7 +32,7 @@ let printerName, socket
         setupListeners()
         console.log(`Listening for print requests on ${socket.uri} ...`)
     } else {
-        console.log(`Failed to listen for print requests: Printer=${printerName}, socket=${socket?'defined':'undefined'}`)
+        console.log(`Failed to listen for print requests: Printer=${printerName}, socket=${socket.io.uri?'defined':'undefined'}`)
     }
 
 })()
@@ -56,8 +55,10 @@ async function getDefaultSystemPrinter() {
 }
 
 function setupListeners() {
+    console.log(socket.on)
 
     socket.on('connect', () => {
+        console.log('hellooooo')
         console.log(`MYFRIENDHASAPRINTER Server Connected on ${socket.uri} : printer = ${printerName}`)
     })
 
