@@ -26,6 +26,8 @@ let printerName = process.env.PRINTER_NAME, socket
     if (printerName && socket) {
         setupListeners()
         console.log('Done setting up listeners')
+    } else {
+        console.log('printerName', printerName, 'socket', socket)
     }
 
 })()
@@ -48,6 +50,7 @@ async function getDefaultSystemPrinter() {
 }
 
 function setupListeners() {
+    console.log('setting up listeners...')
 
     socket.on('connect', () => {
         console.log(`MYFRIENDHASAPRINTER Server Connected on ${socket.url} : printer = ${printerName}`)
