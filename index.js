@@ -30,7 +30,7 @@ let printerName, socket
 
     if (printerName && socket) {
         setupListeners()
-        console.log(`Listening for print requests on ${socket.uri} ...`)
+        console.log(`Listening for print requests on ${socket.io.uri} ...`)
     } else {
         console.log(`Failed to listen for print requests: Printer=${printerName}, socket=${socket.io.uri?'defined':'undefined'}`)
     }
@@ -59,7 +59,7 @@ function setupListeners() {
 
     socket.on('connect', () => {
         console.log('hellooooo')
-        console.log(`MYFRIENDHASAPRINTER Server Connected on ${socket.uri} : printer = ${printerName}`)
+        console.log(`MYFRIENDHASAPRINTER Server Connected on ${socket.io.uri} : printer = ${printerName}`)
     })
 
     socket.on('disconnect', () => {
