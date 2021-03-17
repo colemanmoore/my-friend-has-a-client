@@ -22,6 +22,7 @@ let printerName, socket
     }
 
     try {
+        console.log(socketServerUrl)
         socket = socketClient(socketServerUrl)
     } catch (err) {
         console.log('Error getting socket', err)
