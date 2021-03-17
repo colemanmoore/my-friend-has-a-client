@@ -17,13 +17,13 @@ let printerName, socket
     }
 
     if (!socketServerUrl) {
-        console.log('Error: socket server uri not configured!')
+        console.log('Error: Configure the webapp URI in .env')
         return
     }
 
     try {
         console.log(socketServerUrl)
-        socket = socketClient(socketServerUrl)
+        socket = socketClient.io(socketServerUrl)
     } catch (err) {
         console.log('Error getting socket', err)
         return
