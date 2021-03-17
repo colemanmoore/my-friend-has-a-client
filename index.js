@@ -16,6 +16,11 @@ let printerName, socket
         return
     }
 
+    if (!socketServerUrl) {
+        console.log('Error: socket server uri not configured!')
+        return
+    }
+
     try {
         socket = socketClient(socketServerUrl)
     } catch (err) {
