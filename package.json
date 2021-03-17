@@ -4,7 +4,12 @@
   "main": "index.js",
   "author": "Coleman Moore <morecoleman@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "start": "babel-node index.js"
+  },
   "dependencies": {
+    "babel-cli": "^6.26.0",
+    "dotenv": "^8.2.0",
     "socket.io-client": "^4.0.0"
   }
 }
