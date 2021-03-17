@@ -5,7 +5,7 @@ require('dotenv/config')
 const socketServerUrl = process.env.SOCKET_SERVER_URL
 const NO_DEFAULT_MSG = 'Please set a system default printer using `sudo lpoptions -d [CUPS printer identifier]`'
 
-let printerName = process.env.PRINTER_NAME, socket
+let printerName, socket
 
 (async () => {
 
@@ -25,9 +25,9 @@ let printerName = process.env.PRINTER_NAME, socket
 
     if (printerName && socket) {
         setupListeners()
-        console.log('Done setting up listeners')
+        console.log('Listening for print requests...')
     } else {
-        console.log('printerName', printerName, 'socket', socket)
+        console.log(`Failed to listen for print requests: Printer=${printerName}, socket=${socket?'defined':'undefined'}`)
     }
 
 })()
@@ -50,10 +50,9 @@ async function getDefaultSystemPrinter() {
 }
 
 function setupListeners() {
-    console.log('setting up listeners...')
 
     socket.on('connect', () => {
-        console.log(`MYFRIENDHASAPRINTER Server Connected on ${socket.url} : printer = ${printerName}`)
+        console.log(`MYFRIENDHASAPRINTER Server Connected on ${socket.uri} : printer = ${printerName}`)
     })
 
     socket.on('disconnect', () => {
