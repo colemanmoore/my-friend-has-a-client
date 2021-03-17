@@ -25,7 +25,7 @@ let printerName, socket
 
     if (printerName && socket) {
         setupListeners()
-        console.log('Listening for print requests...')
+        console.log(`Listening for print requests on ${socket.uri} ...`)
     } else {
         console.log(`Failed to listen for print requests: Printer=${printerName}, socket=${socket?'defined':'undefined'}`)
     }
