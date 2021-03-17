@@ -25,6 +25,7 @@ let printerName = process.env.PRINTER_NAME, socket
 
     if (printerName && socket) {
         setupListeners()
+        console.log('Done setting up listeners')
     }
 
 })()
