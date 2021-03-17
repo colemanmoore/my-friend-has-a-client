@@ -12,7 +12,7 @@ let printerName = process.env.PRINTER_NAME, socket
     try {
         printerName = await getDefaultSystemPrinter()
     } catch (err) {
-        console.log('Error getting default system printer', err)
+        console.log('Error getting default system printer\n', err)
         return
     }
 
@@ -30,15 +30,18 @@ let printerName = process.env.PRINTER_NAME, socket
 })()
 
 async function getDefaultSystemPrinter() {
+
     return new Promise((resolve, reject) => {
 
         exec('lpstat -s', (err, stdout, stderr) => {
-            const firstLine = stdout.slice('\n')[0]
-            if (!firstLine || firstLine.indexOf('system default destination: ') < 0) {
+
+            if (!stdout || err ||
+                stdout.indexOf('system default destination: ') < 0
+            ) {
                 reject(NO_DEFAULT_MSG)
             }
 
-            resolve(firstLine.split('system default destination: ')[1])
+            resolve('system default destination: Nick_Canon'.split('system default destination: ')[1])
         })
     })
 }
