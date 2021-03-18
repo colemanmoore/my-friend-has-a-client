@@ -7,6 +7,15 @@ const NO_DEFAULT_MSG = 'Please set a system default printer using `sudo lpoption
 
 let printerName, socket
 
+let files = {}
+const struct = {
+    name: null,
+    type: null,
+    size: 0,
+    data: [],
+    slice: 0,
+}
+
 (async () => {
 
     try {
@@ -69,7 +78,30 @@ function setupListeners() {
         console.log('~~~ File in transit')
     })
 
-    socket.on('my-friend-request-print', function(data) {
+    socket.on('upload-file-slice', data => {
+        console.log('upload file slice', data)
+        if (!files[data.name]) {
+            files[data.name] = Object.assign({}, struct, data);
+            files[data.name].data = [];
+        }
+
+        //convert the ArrayBuffer to Buffer
+        data.data = new Buffer(new Uint8Array(data.data));
+        //save the data
+        files[data.name].data.push(data.data);
+        files[data.name].slice++;
+
+        if (files[data.name].slice * 100000 >= files[data.name].size) {
+            //do something with the data
+            socket.emit('end upload');
+        } else {
+            socket.emit('request slice upload', {
+                currentSlice: files[data.name].slice
+            });
+        }
+    })
+
+    socket.on('my-friend-request-print', data => {
         console.log('~~~ Print job requested', data)
         if (data.filepath) {
             try {
